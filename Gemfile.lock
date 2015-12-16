@@ -164,19 +164,19 @@ DEPENDENCIES
   activemerchant
   bootstrap_helper
   byebug
-  coffee-rails (~> 4.1.0)
+  coffee-rails
   jbuilder (~> 2.0)
   jquery-rails
   pg
   quiet_assets
   rails (= 4.2.0)
   rails_12factor
-  sass-rails (~> 5.0)
+  sass-rails
   sdoc (~> 0.4.0)
   sqlite3
   turbolinks
   tzinfo-data
-  uglifier (>= 1.3.0)
+  uglifier
   web-console (~> 2.0)
 
 BUNDLED WITH
