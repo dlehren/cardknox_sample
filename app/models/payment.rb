@@ -17,7 +17,6 @@ class Payment < ActiveRecord::Base
   validate :valid_card
 
 
-
   def credit_card
     ActiveMerchant::Billing::CreditCard.new(
       number:              credit_card_number,
@@ -41,6 +40,8 @@ class Payment < ActiveRecord::Base
   def process
     if valid_card
       transaction = GATEWAY.purchase(amount * 100, credit_card)
+       
+      Rails.logger.info(GATEWAY.scrub(GATEWAY.wiredump_device))
       if !transaction.success?
         errors.add(:base, "The credit card you provided was declined.  Please double check your information and try again.") and return
         false
