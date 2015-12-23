@@ -44,7 +44,6 @@ class Payment < ActiveRecord::Base
       update_columns({authorization_code: transaction.authorization, success: true, ref_num: transaction.params['ref_num'], last4: transaction.params["masked_card_num"].last(4)})
       if !transaction.success?
         #errors.add(:base, "The credit card you provided was declined.  Please double check your information and try again.")
-        debugger
         return false
       end
       true
