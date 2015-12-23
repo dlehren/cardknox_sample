@@ -41,11 +41,13 @@ class Payment < ActiveRecord::Base
     if valid_card  
       transaction = GATEWAY.purchase(amount * 100, credit_card, options = {ip: @ip_address})
       Rails.logger.info(GATEWAY.scrub(GATEWAY.wiredump_device))
-      update_columns({authorization_code: transaction.authorization, success: true, ref_num: transaction.params['ref_num'], last4: transaction.params["masked_card_num"].last(4)})
       if !transaction.success?
+        update_columns({authorization_code: transaction.authorization, success: false, ref_num: transaction.params['ref_num'], last4: transaction.params["masked_card_num"].last(4)})
         #errors.add(:base, "The credit card you provided was declined.  Please double check your information and try again.")
         return false
       end
+      update_columns({authorization_code: transaction.authorization, success: true, ref_num: transaction.params['ref_num'], last4: transaction.params["masked_card_num"].last(4)})
+
       true
     end
     
