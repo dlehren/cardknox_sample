@@ -9,11 +9,15 @@ class PaymentsController < ApplicationController
   end
 
   def create
+    @ip_address = request.remote_ip
     @payment = Payment.new(payment_params)
-
     if @payment.save
       if @payment.process
+        debugger
         redirect_to payments_path, notice: "The user has been successfully charged." and return
+      else
+        debugger
+        redirect_to payments_path, notice: "The credit card you provided was declined.  Please double check your information and try again." and return
       end
     end
     render 'new'
