@@ -38,8 +38,10 @@ class Payment < ActiveRecord::Base
   end
 
   def process
-    if valid_card  
-      transaction = GATEWAY.purchase(amount * 100, credit_card, options = {ip: @ip_address})
+    if valid_card
+      
+      #@ip = request.remote_ip
+      transaction = GATEWAY.purchase(amount * 100, credit_card, options = {ip: ip_address})
       Rails.logger.info(GATEWAY.scrub(GATEWAY.wiredump_device))
       if !transaction.success?
         update_columns({authorization_code: transaction.authorization, success: false, ref_num: transaction.params['ref_num'], last4: transaction.params["masked_card_num"].last(4)})
